@@ -22,7 +22,7 @@ public class Google20Example
 	{
 		final String cliendId = "299469286864-ecjotn9dteehv4ieoi9c9srhiaaf63bf.apps.googleusercontent.com";
 		final String clientSecret = "IMWiaXSrFxhJDGwX2YPGXlbQ";
-		final String callback = "http://localhost:8080/OAuth/OAuthCallback";
+		final String callback = "http://localhost:8080/openid/callback";
 		final String scope = "https://www.googleapis.com/auth/plus.me";
 		final String secretState = "secret" + new Random().nextInt(999_999);
 
