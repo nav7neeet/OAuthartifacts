@@ -25,7 +25,6 @@ public class OAuth extends HttpServlet
 	private static final long serialVersionUID = 1L;
 
 	private static final String NETWORK_NAME = "G+";
-	private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/plus/v1/people/me";
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException,
@@ -45,17 +44,22 @@ public class OAuth extends HttpServlet
 		System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
 		System.out.println();
 
-		// Obtain the Authorization URL
-		System.out.println("Fetching the Authorization URL...");
-
+		// Adding additional params
 		final Map<String, String> additionalParams = new HashMap<>();
 		additionalParams.put("access_type", "offline");
 		additionalParams.put("prompt", "consent");
 		
+		// Obtain the Authorization URL
+		System.out.println("Fetching the Authorization URL...");
+		String authorizationUrl = service.getAuthorizationUrl(additionalParams);
+
+		System.out.println(authorizationUrl+"\n");
+		
 		HttpSession session=request.getSession();
 		session.setAttribute("service", service);
 		
-		response.sendRedirect(service.getAuthorizationUrl(additionalParams));
+		
+		response.sendRedirect(authorizationUrl);
 
 	}
 

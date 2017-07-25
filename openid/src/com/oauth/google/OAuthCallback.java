@@ -26,26 +26,35 @@ public class OAuthCallback extends HttpServlet
 	private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/plus/v1/people/me";
 
 	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException,
-			IOException
+			HttpServletResponse response)
+			throws ServletException, IOException
 	{
-		System.out.println("in the call back servlet");
+		System.out.println("===in the call back servlet===");
+
 		String code = request.getParameter("code");
+
+		System.out.println("code - " + code+"\n");
+
 		HttpSession session = request.getSession();
 		OAuth20Service service = (OAuth20Service) session
 				.getAttribute("service");
 		OAuth2AccessToken accessToken = null;
+
 		try
 		{
 			accessToken = service.getAccessToken(code);
-			final OAuthRequest authRequest = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
+
+			System.out.println("accessToken - " + accessToken+"\n");
+
+			final OAuthRequest authRequest = new OAuthRequest(Verb.GET,
+					PROTECTED_RESOURCE_URL);
 			service.signRequest(accessToken, authRequest);
 
 			final Response response2 = service.execute(authRequest);
-			
+
 			System.out.println();
-	            System.out.println(response2.getCode());
-	            System.out.println(response2.getBody());
+			System.out.println("response code - "+response2.getCode());
+			System.out.println("response body \n"+response2.getBody());
 		}
 		catch (Exception e)
 		{
@@ -54,8 +63,8 @@ public class OAuthCallback extends HttpServlet
 	}
 
 	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException,
-			IOException
+			HttpServletResponse response)
+			throws ServletException, IOException
 	{
 		System.out.println("post call back");
 	}
